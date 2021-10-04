@@ -1,4 +1,4 @@
-const { Client, Intents, MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
+const { Client, Intents, MessageEmbed, MessageActionRow, MessageButton, GuildMember } = require('discord.js');
 const { token } = require('./config.json');
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
@@ -6,10 +6,7 @@ client.once('ready', () => {
 	console.log('Ready!');
 });
 
-client.on('messageCreate', message => {
-	console.log('test');
-});
-client.on('interactionCreate', async interaction => {
+client.on('interactionCreate', async (interaction) => {
 	if (!interaction.isCommand()) return;
 
 	const { commandName } = interaction;
