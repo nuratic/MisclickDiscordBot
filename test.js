@@ -1,36 +1,40 @@
 const  request  = require('request');
 const { twitchClientId, twitchClientSecret } = require('./config.json');
 
-const getToken = (url, callback) => {
-    const options =  {
-        url: "https://id.twitch.tv/oauth2/token",
-        json: true,
-        body: {
-            client_id: twitchClientId,
-            client_secret: twitchClientSecret,
-            grant_type: "client_credentials"
-        }
-    };
+let AT = "4ggco30iiei14jsmy0c92iwjt6z0na";
 
-    request.post(options, (err, res, body) => {
-        if (err) {
-            return console.log(err);
-        }
-        // console.log(`Status: ${res.statusCode}`);
-        // console.log(body);
+// const getToken = (url, callback) => {
+//     const options =  {
+//         url: "https://id.twitch.tv/oauth2/token",
+//         json: true,
+//         body: {
+//             client_id: twitchClientId,
+//             client_secret: twitchClientSecret,
+//             grant_type: "client_credentials"
+//         }
+//     };
 
-        callback(res);
-    });
-};
+//     request.post(options, (err, res, body) => {
+//         if (err) {
+//             return console.log(err);
+//         }
+//         // console.log(`Status: ${res.statusCode}`);
+//         console.log(body);
 
-let AT = "";
-getToken("https://id.twitch.tv/oauth2/token", (res) => {
-    // console.log(res.body)
-    AT = res.body.access_token;
-    return AT;
-})
+//         callback(res);
+//     });
+// };
 
-setTimeout(() => {
+// let AT = "";
+// getToken("https://id.twitch.tv/oauth2/token", (res) => {
+//     // console.log(res.body)
+//     AT = res.body.access_token;
+//     return AT;
+// })
+
+let schedule = '';
+
+// setTimeout(() => {
     const getUser = (url, callback) => {
         const options =  {
             url: "https://api.twitch.tv/helix/users?login=briziana",
@@ -82,6 +86,11 @@ setTimeout(() => {
         
         getSchedule(`https://api.twitch.tv/helix/schedule?broadcaster_id=${bID}&first=10`, (res) => {
             console.log(res.body['data']['segments'])
+            schedule = res.body['data']['segments'];
+            return schedule;
         })
-    }, 1000)
-}, 1000);
+    }, 300)
+// }, 1000);
+
+
+// https://www.delftstack.com/howto/javascript/javascript-wait-for-function-to-finish/
