@@ -1,6 +1,6 @@
 const  request  = require('request');
-const { twitchClientId, twitchClientSecret } = require('./config.json');
-
+// const { twitchClientId, twitchClientSecret } = require('./config.json');
+let twitchClientId = "yoa1wnlvurwzkux8n0aia8odq2kqoc";
 let AT = "4ggco30iiei14jsmy0c92iwjt6z0na";
 
 // const getToken = (url, callback) => {
@@ -37,7 +37,7 @@ let schedule = '';
 // setTimeout(() => {
     const getUser = (url, callback) => {
         const options =  {
-            url: "https://api.twitch.tv/helix/users?login=briziana",
+            url: "https://api.twitch.tv/helix/users?login=nuratic",
             json: true,
             headers: {
                 "Authorization": `Bearer ${AT}`,
@@ -56,7 +56,7 @@ let schedule = '';
         });
     };
     let bID = "";
-    getUser("https://api.twitch.tv/helix/users?login=briziana", (res) => {
+    getUser("https://api.twitch.tv/helix/users?login=nuratic", (res) => {
         // console.log(res.body['data'][0]['id'])
         bID = res.body['data'][0]['id'];
         return bID
@@ -85,11 +85,13 @@ let schedule = '';
         };
         
         getSchedule(`https://api.twitch.tv/helix/schedule?broadcaster_id=${bID}&first=10`, (res) => {
-            console.log(res.body['data']['segments'])
-            schedule = res.body['data']['segments'];
+            // console.log(res.body['data']['segments'][1]['start_time']);
+            console.log(res.body['data']['segments']);
+            // console.log(res.body['data']['segments'][1]['end_time']);
+            // schedule = res.body['data'];
             return schedule;
         })
-    }, 300)
+    }, 2000)
 // }, 1000);
 
 
