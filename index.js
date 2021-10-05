@@ -93,7 +93,11 @@ client.on('interactionCreate', async (interaction) => {
 
 						const scheduleEmbed = new MessageEmbed()
 						.setColor('#cb5284')
-						.setAuthor(`${capitalizeFirstLetter(user)}'s Schedule`, `${profPic}`, `https://twitch.tv/${user}`)
+						// .setAuthor(`${capitalizeFirstLetter(user)}'s Schedule`, `${profPic}`, `https://twitch.tv/${user}`)
+						.setTitle(`${capitalizeFirstLetter(user)}'s Schedule`)
+						.setURL(`https://twitch.tv/${user}`)
+						.setThumbnail(`${profPic}`)
+
 
 						let weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
@@ -214,7 +218,10 @@ client.on('interactionCreate', async (interaction) => {
 
 						const scheduleEmbed = new MessageEmbed()
 						.setColor('#cb5284')
-						.setAuthor(`${capitalizeFirstLetter(user)}'s Schedule`, `${profPic}`, `https://twitch.tv/${user}`)
+						// .setAuthor(`${capitalizeFirstLetter(user)}'s Schedule`, `${profPic}`, `https://twitch.tv/${user}`)
+						.setTitle(`${capitalizeFirstLetter(user)}'s Schedule`)
+						.setURL(`https://twitch.tv/${user}`)
+						.setThumbnail(`${profPic}`)
 
 						let weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
