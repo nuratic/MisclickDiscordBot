@@ -1,14 +1,12 @@
 const  request  = require('request');
-// const { twitchClientId, twitchClientSecret } = require('./config.json');
-let twitchClientId = "yoa1wnlvurwzkux8n0aia8odq2kqoc";
-let AT = "4ggco30iiei14jsmy0c92iwjt6z0na";
+const { twitchClientId, accessToken } = require('./config.json');
 
 let schedule = '';
 const getUser = (url, callback) => {
     const options =  {
         url: "https://api.twitch.tv/helix/users?login=briziana",
         json: true,
-        headers: { "Authorization": `Bearer ${AT}`, "Client-Id": twitchClientId }
+        headers: { "Authorization": `Bearer ${accessToken}`, "Client-Id": twitchClientId }
     };
     request.get(options, (err, res, body) => {
         if (err) { return console.log(err); }
@@ -27,7 +25,7 @@ setTimeout(() => {
         const options =  {
             url: `https://api.twitch.tv/helix/schedule?broadcaster_id=${bID}&first=7`,
             json: true,
-            headers: { "Authorization": `Bearer ${AT}`, "Client-Id": twitchClientId }
+            headers: { "Authorization": `Bearer ${accessToken}`, "Client-Id": twitchClientId }
         };
         request.get(options, (err, res, body) => {
             if (err) { return console.log(err); }
