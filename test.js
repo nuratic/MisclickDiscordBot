@@ -67,6 +67,3 @@ setTimeout(() => {
     console.log(days);
     console.log(days1);
 }, 2000)
-
-
-// https://www.delftstack.com/howto/javascript/javascript-wait-for-function-to-finish/
