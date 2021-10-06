@@ -11,8 +11,6 @@ client.once('ready', () => {
 client.on('interactionCreate', async (interaction) => {
 	if (!interaction.isCommand()) return;
 
-	// console.log(interaction.member.roles);
-
 	const { commandName } = interaction;
 	if (commandName === 'schedule') {
 		if (interaction.options.getSubcommand() === "get") {
@@ -27,7 +25,7 @@ client.on('interactionCreate', async (interaction) => {
 						headers: { "Authorization": `Bearer ${accessToken}`, "Client-Id": twitchClientId }
 					};
 					request.get(options, (err, res, body) => {
-						if (err) { return console.log(err); }
+						if (err) return console.log(err);
 						callback(res);
 					});
 				};
@@ -54,19 +52,23 @@ client.on('interactionCreate', async (interaction) => {
 								headers: { "Authorization": `Bearer ${accessToken}`, "Client-Id": twitchClientId }
 							};
 							request.get(options, (err, res, body) => {
-								if (err) { return console.log(err); }
+								if (err) return console.log(err);
 								callback(res);
 							});
 						};
 						getSchedule(`https://api.twitch.tv/helix/schedule?broadcaster_id=${bID}&first=7`, (res) => {
-							schedule = res.body['data']['segments'];
+							if (res.body['error']) {
+								schedule = ""
+							} else {
+								schedule = res.body['data']['segments'];
+							}
 							return schedule;
 						})
 					}
 				}, 1000)
 
 				setTimeout(() => {
-					if (bID !== "") {
+					if (bID !== "" && schedule !== "") {
 						let days = [];
 						let days1 = [];
 
@@ -91,21 +93,14 @@ client.on('interactionCreate', async (interaction) => {
 
 						const map = {'Monday': 1,'Tuesday': 2,'Wednesday': 3,'Thursday': 4,'Friday': 5,'Saturday': 6,'Sunday': 7};
 
-						const scheduleEmbed = new MessageEmbed()
-						.setColor('#cb5284')
-						// .setAuthor(`${capitalizeFirstLetter(user)}'s Schedule`, `${profPic}`, `https://twitch.tv/${user}`)
-						.setTitle(`${capitalizeFirstLetter(user)}'s Schedule`)
-						.setURL(`https://twitch.tv/${user}`)
-						.setThumbnail(`${profPic}`)
+						const scheduleEmbed = new MessageEmbed().setColor('#cb5284').setTitle(`${capitalizeFirstLetter(user)}'s Schedule`).setURL(`https://twitch.tv/${user}`).setThumbnail(`${profPic}`)
 
 
 						let weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
 						for (let i = 0; i < days1.length; i++) {
 							const index = weekdays.indexOf(days1[i]['days']);
-							if (index > -1) {
-								weekdays.splice(index, 1);
-							}
+							if (index > -1) weekdays.splice(index, 1);
 						}
 
 						if (weekdays.length > 0) {
@@ -124,15 +119,16 @@ client.on('interactionCreate', async (interaction) => {
 							}
 						}
 
-						scheduleEmbed
-						.setTimestamp()
-						.setFooter('Schedule effective as of');
-
+						scheduleEmbed.setTimestamp().setFooter('Schedule effective as of');
 						interaction.reply({ content: `Schedule for: ${user}`, embeds: [scheduleEmbed]})
 					} else {
-						interaction.reply('Please specify a valid user!');
+						if (bID === "") {
+							interaction.reply('Please specify a valid user!');
+						} else if (schedule === "") {
+							interaction.reply('No schedule is available for this user');
+						}
 					}
-				}, 2000)
+				},2000)
 			} else {
 				await interaction.reply('Please specify a user!');
 			}
@@ -152,7 +148,7 @@ client.on('interactionCreate', async (interaction) => {
 						headers: { "Authorization": `Bearer ${accessToken}`, "Client-Id": twitchClientId }
 					};
 					request.get(options, (err, res, body) => {
-						if (err) { return console.log(err); }
+						if (err) return console.log(err);
 						callback(res);
 					});
 				};
@@ -179,19 +175,23 @@ client.on('interactionCreate', async (interaction) => {
 								headers: { "Authorization": `Bearer ${accessToken}`, "Client-Id": twitchClientId }
 							};
 							request.get(options, (err, res, body) => {
-								if (err) { return console.log(err); }
+								if (err) return console.log(err);
 								callback(res);
 							});
 						};
 						getSchedule(`https://api.twitch.tv/helix/schedule?broadcaster_id=${bID}&first=7`, (res) => {
-							schedule = res.body['data']['segments'];
+							if (res.body['error']) {
+								schedule = ""
+							} else {
+								schedule = res.body['data']['segments'];
+							}
 							return schedule;
 						})
 					}
-				}, 1000)
+				},1000)
 
 				setTimeout(() => {
-					if (bID !== "") {
+					if (bID !== "" && schedule !== "") {
 						let days = [];
 						let days1 = [];
 
@@ -216,26 +216,17 @@ client.on('interactionCreate', async (interaction) => {
 
 						const map = {'Monday': 1,'Tuesday': 2,'Wednesday': 3,'Thursday': 4,'Friday': 5,'Saturday': 6,'Sunday': 7};
 
-						const scheduleEmbed = new MessageEmbed()
-						.setColor('#cb5284')
-						// .setAuthor(`${capitalizeFirstLetter(user)}'s Schedule`, `${profPic}`, `https://twitch.tv/${user}`)
-						.setTitle(`${capitalizeFirstLetter(user)}'s Schedule`)
-						.setURL(`https://twitch.tv/${user}`)
-						.setThumbnail(`${profPic}`)
+						const scheduleEmbed = new MessageEmbed().setColor('#cb5284').setTitle(`${capitalizeFirstLetter(user)}'s Schedule`).setURL(`https://twitch.tv/${user}`).setThumbnail(`${profPic}`)
 
 						let weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
 						for (let i = 0; i < days1.length; i++) {
 							const index = weekdays.indexOf(days1[i]['days']);
-							if (index > -1) {
-								weekdays.splice(index, 1);
-							}
+							if (index > -1) weekdays.splice(index, 1);
 						}
 
 						if (weekdays.length > 0) {
-							for (let i = 0; i < weekdays.length; i++) {
-								days1.push({"days": weekdays[i], "start_time": "No", "end_time": "Stream"});
-							}
+							for (let i = 0; i < weekdays.length; i++) days1.push({"days": weekdays[i], "start_time": "No", "end_time": "Stream"});
 						}
 
 						days1.sort((a, b) => { return map[a.days] - map[b.days];});
@@ -248,15 +239,16 @@ client.on('interactionCreate', async (interaction) => {
 							}
 						}
 
-						scheduleEmbed
-						.setTimestamp()
-						.setFooter('Schedule effective as of');
-
+						scheduleEmbed.setTimestamp().setFooter('Schedule effective as of');
 						interaction.reply({ content: `Schedule for: ${user}`, embeds: [scheduleEmbed]})
 					} else {
-						interaction.reply('Please specify a valid user!');
+						if (bID === "") {
+							interaction.reply('Please specify a valid user!');
+						} else if (schedule === "") {
+							interaction.reply('No schedule is available for this user');
+						}
 					}
-				}, 2000)
+				},2000)
 			} else {
 				await interaction.reply('Please specify a user!');
 			}
