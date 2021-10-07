@@ -10,7 +10,6 @@ client.once('ready', () => {
 client.on('interactionCreate', async (interaction) => {
 	if (!interaction.isCommand()) return;
 
-	// let roles = ['869113742108012555', '884429209420845076', '755082929503207517', '755082929503207518', '755082929503207519', '755082929507532930', "831476082598477844"] // last ID is for test server
 	let perms = ""
 	for (let i = 0; i < interaction.member._roles.length; i++) {
 		const index = roles.indexOf(interaction.member._roles[i]);
@@ -18,12 +17,9 @@ client.on('interactionCreate', async (interaction) => {
 	}
 
 	if (perms !== 1) {
-		await interaction.reply('You don\'t have permission to use this!');
+		await interaction.reply({ content: 'You don\'t have permission to use this!', ephemeral: true});
 		return
 	};
-
-	// const index = roles.indexOf();
-	// if (index > -1) weekdays.splice(index, 1);
 
 	const { commandName } = interaction;
 	if (commandName === 'schedule') {
