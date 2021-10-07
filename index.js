@@ -4,6 +4,7 @@ const { token, twitchClientId, accessToken, roles } = require('./config.json');
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
 client.once('ready', () => {
+	client.user.setUsername("Misclick Bot");
 	console.log('Ready!');
 });
 
@@ -86,8 +87,10 @@ client.on('interactionCreate', async (interaction) => {
 							if (days.includes(Intl.DateTimeFormat('en-US', {weekday: 'long'}).format(day))) break;
 
 							days.push(Intl.DateTimeFormat('en-US', {weekday: 'long'}).format(day));
-							let start_time = schedule[i]["start_time"].substring(11).substring(0, schedule[i]["start_time"].substring(11).length-7);
-							let end_time = schedule[i]["end_time"].substring(11).substring(0, schedule[i]["end_time"].substring(11).length-7);
+							let start_time = parseInt(schedule[i]["start_time"].substring(11).substring(0, schedule[i]["start_time"].substring(11).length-7)) + 10;
+							let end_time = parseInt(schedule[i]["end_time"].substring(11).substring(0, schedule[i]["end_time"].substring(11).length-7)) + 10;
+							if (start_time > 24) start_time -= 24;
+							if (end_time > 24) end_time -= 24;
 
 							if (parseInt(start_time) >= 12 && parseInt(start_time) <= 23) {
 								if (parseInt(start_time) == 12) { start_time += "PM" } else { start_time = (parseInt(start_time)-12) + "PM" }
@@ -128,7 +131,7 @@ client.on('interactionCreate', async (interaction) => {
 							}
 						}
 
-						scheduleEmbed.setTimestamp().setFooter('Schedule effective as of');
+						scheduleEmbed.setTimestamp().setFooter('Times above are in AEST, updated as of');
 						interaction.reply({ content: `Schedule for: ${user}`, embeds: [scheduleEmbed]})
 					} else {
 						if (bID === "") {
@@ -209,8 +212,10 @@ client.on('interactionCreate', async (interaction) => {
 							if (days.includes(Intl.DateTimeFormat('en-US', {weekday: 'long'}).format(day))) break;
 
 							days.push(Intl.DateTimeFormat('en-US', {weekday: 'long'}).format(day));
-							let start_time = schedule[i]["start_time"].substring(11).substring(0, schedule[i]["start_time"].substring(11).length-7);
-							let end_time = schedule[i]["end_time"].substring(11).substring(0, schedule[i]["end_time"].substring(11).length-7);
+							let start_time = parseInt(schedule[i]["start_time"].substring(11).substring(0, schedule[i]["start_time"].substring(11).length-7)) + 10;
+							let end_time = parseInt(schedule[i]["end_time"].substring(11).substring(0, schedule[i]["end_time"].substring(11).length-7)) + 10;
+							if (start_time > 24) start_time -= 24;
+							if (end_time > 24) end_time -= 24;
 
 							if (parseInt(start_time) >= 12 && parseInt(start_time) <= 23) {
 								if (parseInt(start_time) == 12) { start_time += "PM" } else { start_time = (parseInt(start_time)-12) + "PM" }
@@ -248,7 +253,7 @@ client.on('interactionCreate', async (interaction) => {
 							}
 						}
 
-						scheduleEmbed.setTimestamp().setFooter('Schedule effective as of');
+						scheduleEmbed.setTimestamp().setFooter('Times above are in AEST, updated as of');
 						interaction.reply({ content: `Schedule for: ${user}`, embeds: [scheduleEmbed]})
 					} else {
 						if (bID === "") {
