@@ -85,21 +85,23 @@ client.on('interactionCreate', async (interaction) => {
 						for (let i = 0; i < 7; i++) {
 							const day = new Date(schedule[i]["start_time"])
 							if (days.includes(Intl.DateTimeFormat('en-US', {weekday: 'long'}).format(day))) break;
-
+						
 							days.push(Intl.DateTimeFormat('en-US', {weekday: 'long'}).format(day));
 							let start_time = parseInt(schedule[i]["start_time"].substring(11).substring(0, schedule[i]["start_time"].substring(11).length-7)) + 10;
 							let end_time = parseInt(schedule[i]["end_time"].substring(11).substring(0, schedule[i]["end_time"].substring(11).length-7)) + 10;
 							if (start_time > 24) start_time -= 24;
 							if (end_time > 24) end_time -= 24;
-
+							start_time += schedule[i]["start_time"].substring(13).substring(0, schedule[i]["start_time"].substring(11).length-6);
+							end_time += schedule[i]["end_time"].substring(13).substring(0, schedule[i]["end_time"].substring(11).length-6);
+						
 							if (parseInt(start_time) >= 12 && parseInt(start_time) <= 23) {
-								if (parseInt(start_time) == 12) { start_time += "PM" } else { start_time = (parseInt(start_time)-12) + "PM" }
+								if (parseInt(start_time) == 12) { start_time += "PM" } else { start_time = (parseInt(start_time.substring(0, 2))-12) + `${start_time.substring(2)}PM` }
 							} else { start_time += "AM" }
-
+						
 							if (parseInt(end_time) >= 12 && parseInt(end_time) <= 23) {
-								if (parseInt(end_time) == 12) { end_time += "PM" } else { end_time = (parseInt(end_time)-12) + "PM"}
+								if (parseInt(end_time) == 12) { end_time += "PM" } else { end_time = (parseInt(end_time.substring(0, 2))-12) + `${end_time.substring(2)}PM` }
 							} else { end_time += "AM" }
-
+						
 							days1.push({"days": Intl.DateTimeFormat('en-US', {weekday: 'long'}).format(day), "start_time": start_time, "end_time": end_time});
 						}
 
@@ -210,21 +212,23 @@ client.on('interactionCreate', async (interaction) => {
 						for (let i = 0; i < 7; i++) {
 							const day = new Date(schedule[i]["start_time"])
 							if (days.includes(Intl.DateTimeFormat('en-US', {weekday: 'long'}).format(day))) break;
-
+						
 							days.push(Intl.DateTimeFormat('en-US', {weekday: 'long'}).format(day));
 							let start_time = parseInt(schedule[i]["start_time"].substring(11).substring(0, schedule[i]["start_time"].substring(11).length-7)) + 10;
 							let end_time = parseInt(schedule[i]["end_time"].substring(11).substring(0, schedule[i]["end_time"].substring(11).length-7)) + 10;
 							if (start_time > 24) start_time -= 24;
 							if (end_time > 24) end_time -= 24;
-
+							start_time += schedule[i]["start_time"].substring(13).substring(0, schedule[i]["start_time"].substring(11).length-6);
+							end_time += schedule[i]["end_time"].substring(13).substring(0, schedule[i]["end_time"].substring(11).length-6);
+						
 							if (parseInt(start_time) >= 12 && parseInt(start_time) <= 23) {
-								if (parseInt(start_time) == 12) { start_time += "PM" } else { start_time = (parseInt(start_time)-12) + "PM" }
+								if (parseInt(start_time) == 12) { start_time += "PM" } else { start_time = (parseInt(start_time.substring(0, 2))-12) + `${start_time.substring(2)}PM` }
 							} else { start_time += "AM" }
-
+						
 							if (parseInt(end_time) >= 12 && parseInt(end_time) <= 23) {
-								if (parseInt(end_time) == 12) { end_time += "PM" } else { end_time = (parseInt(end_time)-12) + "PM"}
+								if (parseInt(end_time) == 12) { end_time += "PM" } else { end_time = (parseInt(end_time.substring(0, 2))-12) + `${end_time.substring(2)}PM` }
 							} else { end_time += "AM" }
-
+						
 							days1.push({"days": Intl.DateTimeFormat('en-US', {weekday: 'long'}).format(day), "start_time": start_time, "end_time": end_time});
 						}
 
